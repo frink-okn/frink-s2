@@ -80,3 +80,14 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+persistence:
+  enabled: true
+  input:
+    size: 10G
+    accessMode: "ReadWriteMany"
+    retain: true
+  output:
+    size: 10G
+    accessMode: "ReadWriteMany"
+    retain: true

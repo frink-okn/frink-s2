@@ -1,0 +1,41 @@
+{{- if .Values.persistence.enabled }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ include "frink-s2.fullname" . }}-input
+  {{- if .Values.persistence.input.retain }}
+  annotations:
+    "helm.sh/resource-policy": "keep"
+  {{- end }}
+  labels:
+    {{- include "frink-s2.labels" . | nindent 4 }}
+spec:
+  accessModes:
+    - {{ .Values.persistence.input.accessMode }}
+  resources:
+    requests:
+      storage: {{ .Values.persistence.input.size }}
+  {{- if .Values.persistence.input.storageClass }}
+  storageClassName: {{ .Values.persistence.input.storageClass }}
+  {{- end }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ include "frink-s2.fullname" . }}-output
+  {{- if .Values.persistence.output.retain }}
+  annotations:
+    "helm.sh/resource-policy": "keep"
+  {{- end }}
+  labels:
+    {{- include "frink-s2.labels" . | nindent 4 }}
+spec:
+  accessModes:
+    - {{ .Values.persistence.output.accessMode }}
+  resources:
+    requests:
+      storage: {{ .Values.persistence.output.size }}
+  {{- if .Values.persistence.output.storageClass }}
+  storageClassName: {{ .Values.persistence.output.storageClass }}
+  {{- end }}
+{{- end }}

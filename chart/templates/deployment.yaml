@@ -47,6 +47,18 @@ spec:
 #              port: http
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+            - name: input
+              mountPath: /s2/input
+            - name: output
+              mountPath: /s2/output
+      volumes:
+        - name: input
+          persistentVolumeClaim:
+            claimName: {{ include "frink-s2.fullname" . }}-input
+        - name: output
+          persistentVolumeClaim:
+            claimName: {{ include "frink-s2.fullname" . }}-output
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
